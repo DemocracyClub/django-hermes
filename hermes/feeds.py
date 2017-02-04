@@ -1,5 +1,7 @@
 from django.contrib.syndication.views import Feed
 
+from hermes import renderers
+
 from .models import Post
 from .settings import (
     SYNDICATION_FEED_TITLE, SYNDICATION_FEED_LINK,
@@ -20,7 +22,7 @@ class LatestPostFeed(Feed):
         return item.subject
 
     def item_description(self, item):
-        return item.body
+        return renderers.markdown(item.body)
 
     def item_pubdate(self, item):
         return item.created_on
